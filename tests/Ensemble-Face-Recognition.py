@@ -1,10 +1,10 @@
-import pandas as pd
-import numpy as np
 import itertools
-from sklearn import metrics
-from sklearn.metrics import confusion_matrix,accuracy_score, roc_curve, auc
+
 import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.metrics import confusion_matrix
 from tqdm import tqdm
+
 tqdm.pandas()
 
 #--------------------------
@@ -19,7 +19,8 @@ idendities = {
     "Jack": ["img16.jpg", "img17.jpg", "img59.jpg", "img61.jpg", "img62.jpg"],
     "Elon": ["img18.jpg", "img19.jpg", "img67.jpg"],
     "Jeff": ["img20.jpg", "img21.jpg"],
-    "Marissa": ["img22.jpg", "img23.jpg"],
+    # "Marissa": ["img22.jpg", "img23.jpg"],
+    "Marissa": ["img23.jpg"], # no img22.jpg exist in dataset folder
     "Sundar": ["img24.jpg", "img25.jpg"],
     "Katy": ["img26.jpg", "img27.jpg", "img28.jpg", "img42.jpg", "img43.jpg", "img44.jpg", "img45.jpg", "img46.jpg"],
     "Matt": ["img29.jpg", "img30.jpg", "img31.jpg", "img32.jpg", "img33.jpg"],
@@ -28,16 +29,16 @@ idendities = {
     
 }
 #--------------------------
-#Positives
+# Positives
 
 positives = []
 
 for key, values in idendities.items():
-    
-    #print(key)
+
+    # print(key)
     for i in range(0, len(values)-1):
         for j in range(i+1, len(values)):
-            #print(values[i], " and ", values[j])
+            # print(values[i], " and ", values[j])
             positive = []
             positive.append(values[i])
             positive.append(values[j])
@@ -55,13 +56,13 @@ negatives = []
 
 for i in range(0, len(idendities) - 1):
     for j in range(i+1, len(idendities)):
-        #print(samples_list[i], " vs ",samples_list[j]) 
+        print(samples_list[i], " vs ",samples_list[j])
         cross_product = itertools.product(samples_list[i], samples_list[j])
         cross_product = list(cross_product)
         #print(cross_product)
         
         for cross_sample in cross_product:
-            #print(cross_sample[0], " vs ", cross_sample[1])
+            print(cross_sample[0], " vs ", cross_sample[1])
             negative = []
             negative.append(cross_sample[0])
             negative.append(cross_sample[1])
@@ -80,8 +81,8 @@ df = pd.concat([positives, negatives]).reset_index(drop = True)
 
 print(df.decision.value_counts())
 
-df.file_x = "deepface/tests/dataset/"+df.file_x
-df.file_y = "deepface/tests/dataset/"+df.file_y
+df.file_x = "dataset/"+df.file_x # pay attention to the what relative path should be here or give the absolute path directly
+df.file_y = "dataset/"+df.file_y
 #--------------------------
 #DeepFace
 
@@ -100,14 +101,13 @@ pretrained_models["DeepFace"] = FbDeepFace.loadModel()
 print("FbDeepFace loaded")
 
 instances = df[["file_x", "file_y"]].values.tolist()
-
 models = ['VGG-Face', 'Facenet', 'OpenFace', 'DeepFace']
 metrics = ['cosine', 'euclidean_l2']
 
 if True:
     for model in models:
         for metric in metrics:
-
+            print(model, metric)
             resp_obj = DeepFace.verify(instances
                                        , model_name = model
                                        , model = pretrained_models[model]

@@ -125,7 +125,7 @@ def preprocess_face(img, target_size=(224, 224), grayscale = False, enforce_dete
 		img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 	img = cv2.resize(img, target_size)
-	#TODO: resize causes transformation on base image, you should add black pixels to rezie it to target_size
+	#TODO: resize causes transformation on base image, you should add black pixels to resize it to target_size
 
 	img_pixels = image.img_to_array(img)
 	img_pixels = np.expand_dims(img_pixels, axis = 0)

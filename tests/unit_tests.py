@@ -72,13 +72,13 @@ print("opencv detector")
 res = DeepFace.verify(dataset, detector_backend = 'opencv')
 print(res)
 
-print("dlib detector")
-res = DeepFace.verify(dataset, detector_backend = 'dlib')
-print(res)
+# print("dlib detector") # dlib cannot be installed
+# res = DeepFace.verify(dataset, detector_backend = 'dlib')
+# print(res)
 
-print("mtcnn detector")
-res = DeepFace.verify(dataset, detector_backend = 'mtcnn')
-print(res)
+# print("mtcnn detector")
+# res = DeepFace.verify(dataset, detector_backend = 'mtcnn')
+# print(res)
 
 print("-----------------------------------------")
 
@@ -179,8 +179,9 @@ dataset = [
 	['dataset/img6.jpg', 'dataset/img9.jpg', False],
 ]
 
-#models = ['VGG-Face', 'Facenet', 'OpenFace', 'DeepFace', 'DeepID', 'Dlib', 'ArcFace']
-models = ['VGG-Face', 'Facenet', 'Dlib', 'ArcFace'] #those are robust models
+# models = ['VGG-Face', 'Facenet', 'OpenFace', 'DeepFace', 'DeepID', 'Dlib', 'ArcFace']
+# models = ['VGG-Face', 'Facenet', 'Dlib', 'ArcFace'] #those are robust models
+models = ['VGG-Face', 'Facenet', 'ArcFace'] #those are robust models
 metrics = ['cosine', 'euclidean', 'euclidean_l2']
 
 passed_tests = 0; test_cases = 0

@@ -6,34 +6,32 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #----------------------------------------------
-#build face recognition model
+# load existing face recognition model
 
 model = VGGFace.loadModel()
-#model = Facenet.loadModel()
-#model = OpenFace.loadModel()
-#model = FbDeepFace.loadModel()
+# model = Facenet.loadModel()
+# model = OpenFace.loadModel()
+# model = FbDeepFace.loadModel()
 
-input_shape = model.layers[0].input_shape[1:3]
-
-print("model input shape: ", model.layers[0].input_shape[1:])
+# print(functions.load_image("dataset/img1.jpg"))
+input_shape = model.layers[0].input_shape[0][1:3]
+print("model input shape: ", model.layers[0].input_shape[0][1:])
 print("model output shape: ", model.layers[-1].input_shape[-1])
 
 #----------------------------------------------
 #load images and find embeddings
 
-#img1 = functions.detectFace("dataset/img1.jpg", input_shape)
 img1 = functions.preprocess_face("dataset/img1.jpg", input_shape)
 img1_representation = model.predict(img1)[0,:]
 
-#img2 = functions.detectFace("dataset/img3.jpg", input_shape)
-img2 = functions.preprocess_face("dataset/img3.jpg", input_shape)
+img2 = functions.preprocess_face("dataset/img2.jpg", input_shape)
 img2_representation = model.predict(img2)[0,:]
 
 #----------------------------------------------
 #distance between two images
 
 distance_vector = np.square(img1_representation - img2_representation)
-#print(distance_vector)
+print(distance_vector)
 
 distance = np.sqrt(distance_vector.sum())
 print("Euclidean distance: ",distance)
